@@ -5,7 +5,7 @@ import io.cucumber.testng.CucumberOptions;
 
 @CucumberOptions(
   features = "src/test/resources/features",
-  glue = "com.example.automation",
+  glue = "dev.prj.scautomation01",
   plugin = {"pretty"}
 )
 public class SCAutomationRunner extends AbstractTestNGCucumberTests { }

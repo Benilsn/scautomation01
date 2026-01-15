@@ -2,12 +2,10 @@ package dev.prj.scautomation01.pages;
 
 import org.openqa.selenium.WebDriver;
 
-public class HomePage {
-
-  private final WebDriver driver;
+public class HomePage extends BasePage{
 
   public HomePage(WebDriver driver) {
-    this.driver = driver;
+    super(driver);
   }
 
   public void open() {
