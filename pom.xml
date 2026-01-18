@@ -5,7 +5,7 @@
 
 	<groupId>dev.prj</groupId>
 	<artifactId>scautomation01</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>scautomation01</name>
 	<description>This project is a Java-based test automation framework built with Selenium WebDriver, Cucumber, and TestNG to validate end-to-end user journeys on web applications. It follows the Page Object Model and a layered test architecture to ensure readability, maintainability, and scalability. The framework supports BDD scenarios, cross-browser execution, and automated reporting with screenshots for each test step.</description>
 
@@ -73,8 +73,8 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<source>14</source>
-					<target>14</target>
+					<source>16</source>
+					<target>16</target>
 				</configuration>
 			</plugin>
 		</plugins>

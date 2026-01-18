@@ -11,12 +11,14 @@ import java.time.Duration;
 public abstract class BasePage {
 
   protected WebDriver driver;
-  protected WebDriverWait wait;
 
   protected BasePage(WebDriver driver) {
     this.driver = driver;
-    this.wait = new WebDriverWait(driver, Duration.ofSeconds(5));
     PageFactory.initElements(driver, this);
+  }
+
+  public WebDriverWait wait(int seconds){
+    return new WebDriverWait(driver, Duration.ofSeconds(seconds));
   }
 
   public void printScreen(){
