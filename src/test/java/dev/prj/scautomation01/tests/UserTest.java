@@ -3,7 +3,11 @@ package dev.prj.scautomation01.tests;
 import dev.prj.scautomation01.pages.HomePage;
 import dev.prj.scautomation01.pages.SignInUpPage;
 import dev.prj.scautomation01.utils.GeneratorUtils;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NotFoundException;
+import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
+
 import static dev.prj.scautomation01.utils.GeneratorUtils.*;
 import static org.testng.Assert.assertTrue;
 
@@ -19,7 +23,9 @@ public class UserTest extends BaseTest {
   7. Click 'Signup' button
   8. Verify that 'ENTER ACCOUNT INFORMATION' is visible
 
-//TODO  9. Fill details: Title, Name, Email, Password, Date of birth
+TODO
+  9. Fill details: Title, Name, Email, Password, Date of birth
+
   10. Select checkbox 'Sign up for our newsletter!'
   11. Select checkbox 'Receive special offers from our partners!'
   12. Fill details: First name, Last name, Company, Address, Address2, Country, State, City, Zipcode, Mobile Number
@@ -56,9 +62,19 @@ public class UserTest extends BaseTest {
 
     assertTrue(driver.findElement(signInUpPage.enterAccountInformationTitle).isDisplayed());
 
+    //Select gender
     driver.findElement(user.getGender()).click();
 
+    //Write password
     driver.findElement(signInUpPage.newUserPasswordInput).sendKeys(user.getPassword());
+
+    //Select Date of birth
+    SignInUpPage.DateOfBirth dateOfBirtSelect = new SignInUpPage.DateOfBirth(driver).build();
+
+    // TODO Make it dynamic
+    dateOfBirtSelect.selectDay("1");
+    dateOfBirtSelect.selectMonth("February");
+    dateOfBirtSelect.selectYear("2007");
 
 
   }
