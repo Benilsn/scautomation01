@@ -1,8 +1,11 @@
 package dev.prj.scautomation01.pages;
 
 import dev.prj.scautomation01.utils.PdfReportUtil;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.IOException;
@@ -17,11 +20,28 @@ public abstract class BasePage {
     PageFactory.initElements(driver, this);
   }
 
-  public WebDriverWait wait(int seconds){
-    return new WebDriverWait(driver, Duration.ofSeconds(seconds));
+  public void waitSeconds(int seconds) {
+    try {
+      Thread.sleep(seconds * 1000L);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+    }
   }
 
-  public void printScreen(){
+  public void waitForVisibilityAndIgnore(WebElement element, int seconds) {
+    try {
+      new WebDriverWait(driver, Duration.ofSeconds(seconds))
+        .until(ExpectedConditions.visibilityOf(element));
+    } catch (TimeoutException ignored) {
+    }
+  }
+
+  public void waitForVisibility(WebElement element, int seconds) {
+    new WebDriverWait(driver, Duration.ofSeconds(seconds))
+      .until(ExpectedConditions.visibilityOf(element));
+  }
+
+  public void printScreen() {
     PdfReportUtil.capture(driver);
   }
 
