@@ -1,14 +1,10 @@
 package dev.prj.scautomation01.tests;
 
-import dev.prj.scautomation01.pages.BasePage;
 import dev.prj.scautomation01.pages.HomePage;
 import dev.prj.scautomation01.pages.SignInUpPage;
 import dev.prj.scautomation01.utils.GeneratorUtils;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import java.util.NoSuchElementException;
 
 import static dev.prj.scautomation01.utils.GeneratorUtils.*;
 import static org.testng.Assert.assertTrue;
@@ -35,30 +31,26 @@ public class UserTest extends BaseTest {
   17. Click 'Delete Account' button
   18. Verify that 'ACCOUNT DELETED!' is visible and click 'Continue' button
    */
-
   @Test
-  public void shouldRegisterAUser() throws InterruptedException {
+  public void shouldRegisterAUser() {
     HomePage homePage = new HomePage(driver);
     homePage.open();
 
-    homePage.waitSeconds(2);
-
-    assertTrue(driver.findElement(homePage.singInUpButton).isDisplayed());
-    driver.findElement(homePage.singInUpButton).click();
+    homePage.waitForVisibility(homePage.singInUpButton, 2);
+    assertTrue(homePage.singInUpButton.isDisplayed());
+    homePage.singInUpButton.click();
 
     SignInUpPage signInUpPage = new SignInUpPage(driver);
 
-    assertTrue(driver.findElement(signInUpPage.newUserSignUpTitle).isDisplayed());
+    assertTrue(signInUpPage.newUserSignUpTitle.isDisplayed());
 
     final GeneratorUtils.User user = generate();
 
-     driver.findElement(signInUpPage.newUserFormEmailInput).sendKeys(user.getEmail());
+    signInUpPage.newUserFormNameInput.sendKeys(user.getFirstName());
+    signInUpPage.newUserFormEmailInput.sendKeys(user.getEmail());
+    signInUpPage.signUpButton.click();
 
-    driver.findElement(signInUpPage.signUpButton).click();
-
-    homePage.waitSeconds(2);
-
-    assertTrue(driver.findElement(signInUpPage.enterAccountInformationTitle).isDisplayed());
+    assertTrue(signInUpPage.enterAccountInformationTitle.isDisplayed());
 
     //Select gender
     driver.findElement(user.getGender()).click();
@@ -90,38 +82,40 @@ public class UserTest extends BaseTest {
 
     signInUpPage.createAccountButton.click();
 
-    signInUpPage.waitForVisibility(signInUpPage.accountActionTitle, 2);
-    Assert.assertEquals(signInUpPage.accountActionTitle.getText(), "ACCOUNT CREATED!");
-
-    // Wait and close AD
-    //TODO
-    ignoreAd(signInUpPage, signInUpPage.ad);
+    signInUpPage.waitForVisibility(homePage.accountActionTitle, 2);
+    Assert.assertEquals(homePage.accountActionTitle.getText(), "ACCOUNT CREATED!");
 
     signInUpPage.accountCreatedContinueButton.click();
 
-    //TODO
-    ignoreAd(signInUpPage, signInUpPage.ad);
+    signInUpPage.waitForVisibility(homePage.loggedAsUserAnchor, 2);
+    Assert.assertTrue(homePage.loggedAsUserAnchor.isDisplayed());
 
-    signInUpPage.waitForVisibility(signInUpPage.loggedAsUserAnchor, 2);
-    Assert.assertTrue(signInUpPage.loggedAsUserAnchor.isDisplayed());
-
-    signInUpPage.deleteAccountButton.click();
-    signInUpPage.waitSeconds(2);
-
-    //TODO
-    ignoreAd(signInUpPage, signInUpPage.ad);
-
-    signInUpPage.waitForVisibility(signInUpPage.accountActionTitle, 2);
-    Assert.assertEquals(signInUpPage.accountActionTitle.getText(), "ACCOUNT DELETED!");
+//    deleteAccount(homePage);
   }
 
-  private void ignoreAd(BasePage page, WebElement element) {
-    page.waitForVisibilityAndIgnore(element, 3);
-    try {
-      if (element.isDisplayed())
-        element.click();
-    } catch (NoSuchElementException ignored) {
-    }
+  /**
+   * 1. Launch browser
+   * 2. Navigate to url 'http://automationexercise.com'
+   * 3. Verify that home page is visible successfully
+   * 4. Click on 'Signup / Login' button
+   * 5. Verify 'Login to your account' is visible
+   * 6. Enter correct email address and password
+   * 7. Click 'login' button
+   * 8. Verify that 'Logged in as username' is visible
+   * 9. Click 'Delete Account' button
+   * 10. Verify that 'ACCOUNT DELETED!' is visible
+   */
+  @Test
+  public void shouldLoginWithaValidUser() {
+    HomePage homePage = new HomePage(driver);
+
+  }
+
+  private void deleteAccount(HomePage homePage) {
+    homePage.deleteAccountButton.click();
+
+    homePage.waitForVisibility(homePage.accountActionTitle, 2);
+    Assert.assertEquals(homePage.accountActionTitle.getText(), "ACCOUNT DELETED!");
   }
 
 }

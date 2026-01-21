@@ -20,19 +20,16 @@ public abstract class BasePage {
     PageFactory.initElements(driver, this);
   }
 
+  public BasePage write(WebElement element, String text) {
+    element.sendKeys(text);
+    return this;
+  }
+
   public void waitSeconds(int seconds) {
     try {
       Thread.sleep(seconds * 1000L);
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
-    }
-  }
-
-  public void waitForVisibilityAndIgnore(WebElement element, int seconds) {
-    try {
-      new WebDriverWait(driver, Duration.ofSeconds(seconds))
-        .until(ExpectedConditions.visibilityOf(element));
-    } catch (TimeoutException ignored) {
     }
   }
 

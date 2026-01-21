@@ -10,11 +10,21 @@ import java.util.stream.IntStream;
 
 public class SignInUpPage extends BasePage {
 
-  public By newUserSignUpTitle = By.xpath("//*[@id='form']/div/div/div[3]/div/h2");
-  public By newUserFormNameInput = By.xpath("//*[@id='form']/div/div/div[3]/div/form/input[2]");
-  public By newUserFormEmailInput = By.xpath("//*[@id='form']/div/div/div[3]/div/form/input[3]");
-  public By signUpButton = By.xpath("//*[@id='form']/div/div/div[3]/div/form/button");
-  public By enterAccountInformationTitle = By.xpath("//*[@id='form']/div/div/div/div/h2/b");
+  @FindBy(xpath = "//*[@id='form']/div/div/div[3]/div/h2")
+  public WebElement newUserSignUpTitle;
+
+  @FindBy(xpath = "//*[@id='form']/div/div/div[3]/div/form/input[2]")
+  public WebElement newUserFormNameInput;
+
+  @FindBy(xpath = "//*[@id='form']/div/div/div[3]/div/form/input[3]")
+  public WebElement newUserFormEmailInput;
+
+  @FindBy(xpath = "//*[@id='form']/div/div/div[3]/div/form/button")
+  public WebElement signUpButton;
+
+  @FindBy(xpath = "//*[@id='form']/div/div/div/div/h2/b")
+  public WebElement enterAccountInformationTitle;
+
   public DateOfBirth dateOfBirth;
 
   @FindBy(id = "password")
@@ -60,20 +70,8 @@ public class SignInUpPage extends BasePage {
   @FindBy(xpath = "//*[@id='form']/div/div/div/div/form/button")
   public WebElement createAccountButton;
 
-  @FindBy(xpath = "//*[@id='form']/div/div/div/h2/b")
-  public WebElement accountActionTitle;
-
   @FindBy(xpath = "//*[@id='form']/div/div/div/div/a")
   public WebElement accountCreatedContinueButton;
-
-  @FindBy(xpath = "//*[@id='header']/div/div/div/div[2]/div/ul/li[10]/a")
-  public WebElement loggedAsUserAnchor;
-
-  @FindBy(xpath = "//*[@id='header']/div/div/div/div[2]/div/ul/li[5]/a")
-  public WebElement deleteAccountButton;
-
-  @FindBy(id = "ad_position_box")
-  public WebElement ad;
 
   public SignInUpPage(WebDriver driver) {
     super(driver);
