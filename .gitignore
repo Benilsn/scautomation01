@@ -1,4 +1,6 @@
-src/test/resources/application.yaml
+**/application.yaml
+**/application.yml
+
 ./reports
 HELP.md
 target/
