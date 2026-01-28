@@ -1,2 +1,6 @@
-scautomation01:
+automation:
   driver-type: chrome
+  driver-path: C:\dev\selenium\chromedriver-win64
+  reports:
+    enabled: false
+    path: C:\Workspace\JAVA\scautomation01\reports

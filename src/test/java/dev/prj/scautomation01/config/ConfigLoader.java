@@ -1,6 +1,7 @@
 package dev.prj.scautomation01.config;
 
 import org.yaml.snakeyaml.Yaml;
+
 import java.io.InputStream;
 import java.util.Map;
 import java.util.Objects;

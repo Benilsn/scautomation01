@@ -6,33 +6,75 @@ import dev.prj.scautomation01.utils.GeneratorUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import static dev.prj.scautomation01.utils.GeneratorUtils.*;
+import static dev.prj.scautomation01.utils.GeneratorUtils.User;
+import static dev.prj.scautomation01.utils.GeneratorUtils.generate;
 import static org.testng.Assert.assertTrue;
 
 public class UserTest extends BaseTest {
 
-  /*
-  1. Launch browser
-  2. Navigate to url 'http://automationexercise.com'
-  3. Verify that home page is visible successfully
-  4. Click on 'Signup / Login' button
-  5. Verify 'New User Signup!' is visible
-  6. Enter name and email address
-  7. Click 'Signup' button
-  8. Verify that 'ENTER ACCOUNT INFORMATION' is visible
-  9. Fill details: Title, Name, Email, Password, Date of birth
-  10. Select checkbox 'Sign up for our newsletter!'
-  11. Select checkbox 'Receive special offers from our partners!'
-  12. Fill details: First name, Last name, Company, Address, Address2, Country, State, City, Zipcode, Mobile Number
-  13. Click 'Create Account button'
-  14. Verify that 'ACCOUNT CREATED!' is visible
-  15. Click 'Continue' button
-  16. Verify that 'Logged in as username' is visible
-  17. Click 'Delete Account' button
-  18. Verify that 'ACCOUNT DELETED!' is visible and click 'Continue' button
+  /**
+   * 1. Launch browser
+   * 2. Navigate to url 'http://automationexercise.com'
+   * 3. Verify that home page is visible successfully
+   * 4. Click on 'Signup / Login' button
+   * 5. Verify 'New User Signup!' is visible
+   * 6. Enter name and email address
+   * 7. Click 'Signup' button
+   * 8. Verify that 'ENTER ACCOUNT INFORMATION' is visible
+   * 9. Fill details: Title, Name, Email, Password, Date of birth
+   * 10. Select checkbox 'Sign up for our newsletter!'
+   * 11. Select checkbox 'Receive special offers from our partners!'
+   * 12. Fill details: First name, Last name, Company, Address, Address2, Country, State, City, Zipcode, Mobile Number
+   * 13. Click 'Create Account button'
+   * 14. Verify that 'ACCOUNT CREATED!' is visible
+   * 15. Click 'Continue' button
+   * 16. Verify that 'Logged in as username' is visible
+   * 17. Click 'Delete Account' button
+   * 18. Verify that 'ACCOUNT DELETED!' is visible and click 'Continue' button
+   */
+  @Test()
+  public void shouldRegisterAUserAndThenDelete() {
+    registerUser(true, false);
+  }
+
+  /**
+   * 1. Launch browser
+   * 2. Navigate to url 'http://automationexercise.com'
+   * 3. Verify that home page is visible successfully
+   * 4. Click on 'Signup / Login' button
+   * 5. Verify 'Login to your account' is visible
+   * 6. Enter correct email address and password
+   * 7. Click 'login' button
+   * 8. Verify that 'Logged in as username' is visible
+   * 9. Click 'Delete Account' button
+   * 10. Verify that 'ACCOUNT DELETED!' is visible
    */
   @Test
-  public void shouldRegisterAUser() {
+  public void shouldLoginWithAValidUser() {
+    User createdUser = registerUser(false, true);
+    login(createdUser, false, true, true);
+  }
+
+  /**
+   * 1. Launch browser
+   * 2. Navigate to url 'http://automationexercise.com'
+   * 3. Verify that home page is visible successfully
+   * 4. Click on 'Signup / Login' button
+   * 5. Verify 'Login to your account' is visible
+   * 6. Enter incorrect email address and password
+   * 7. Click 'login' button
+   * 8. Verify error 'Your email or password is incorrect!' is visible
+   */
+  @Test
+  public void shouldWhenTryingToLoginWithAInvalidUser() {
+    User invalidUser = new User("", User.GenderType.MALE);
+    invalidUser.setEmail("invalid@email.test");
+    invalidUser.setPassword("123");
+
+    login(invalidUser, true, false, false);
+  }
+
+  public User registerUser(boolean deleteAccount, boolean logout) {
     HomePage homePage = new HomePage(driver);
     homePage.open();
 
@@ -90,25 +132,32 @@ public class UserTest extends BaseTest {
     signInUpPage.waitForVisibility(homePage.loggedAsUserAnchor, 2);
     Assert.assertTrue(homePage.loggedAsUserAnchor.isDisplayed());
 
-//    deleteAccount(homePage);
+    if (deleteAccount) deleteAccount(homePage);
+    if (!deleteAccount && logout) homePage.logoutButton.click();
+
+    homePage.homeButton.click();
+
+    return user;
   }
 
-  /**
-   * 1. Launch browser
-   * 2. Navigate to url 'http://automationexercise.com'
-   * 3. Verify that home page is visible successfully
-   * 4. Click on 'Signup / Login' button
-   * 5. Verify 'Login to your account' is visible
-   * 6. Enter correct email address and password
-   * 7. Click 'login' button
-   * 8. Verify that 'Logged in as username' is visible
-   * 9. Click 'Delete Account' button
-   * 10. Verify that 'ACCOUNT DELETED!' is visible
-   */
-  @Test
-  public void shouldLoginWithaValidUser() {
+  public void login(User user, boolean openBrowser, boolean deleteAfter, boolean assertLogged) {
     HomePage homePage = new HomePage(driver);
+    if (openBrowser) homePage.open();
 
+    homePage.waitForVisibility(homePage.singInUpButton, 2);
+    assertTrue(homePage.singInUpButton.isDisplayed());
+    homePage.singInUpButton.click();
+
+    SignInUpPage signInUpPage = new SignInUpPage(driver);
+
+    assertTrue(signInUpPage.loginToYourAccountTitle.isDisplayed());
+
+    signInUpPage.loginEmailInput.sendKeys(user.getEmail());
+    signInUpPage.loginPasswordInput.sendKeys(user.getPassword());
+    signInUpPage.loginButton.click();
+
+    if (assertLogged) Assert.assertTrue(homePage.loggedAsUserAnchor.isDisplayed());
+    else if (deleteAfter) Assert.assertTrue(signInUpPage.invalidUserLoginLabel.isDisplayed());
   }
 
   private void deleteAccount(HomePage homePage) {

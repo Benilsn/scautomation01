@@ -6,12 +6,14 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
-import java.util.stream.IntStream;
 
 public class SignInUpPage extends BasePage {
 
   @FindBy(xpath = "//*[@id='form']/div/div/div[3]/div/h2")
   public WebElement newUserSignUpTitle;
+
+  @FindBy(xpath = "//*[@id='form']/div/div/div[1]/div/h2")
+  public WebElement loginToYourAccountTitle;
 
   @FindBy(xpath = "//*[@id='form']/div/div/div[3]/div/form/input[2]")
   public WebElement newUserFormNameInput;
@@ -21,6 +23,15 @@ public class SignInUpPage extends BasePage {
 
   @FindBy(xpath = "//*[@id='form']/div/div/div[3]/div/form/button")
   public WebElement signUpButton;
+
+  @FindBy(xpath = "//*[@id='form']/div/div/div[1]/div/form/input[2]")
+  public WebElement loginEmailInput;
+
+  @FindBy(xpath = "//*[@id=\"form\"]/div/div/div[1]/div/form/input[3]")
+  public WebElement loginPasswordInput;
+
+  @FindBy(xpath = "//*[@id=\"form\"]/div/div/div[1]/div/form/button")
+  public WebElement loginButton;
 
   @FindBy(xpath = "//*[@id='form']/div/div/div/div/h2/b")
   public WebElement enterAccountInformationTitle;
@@ -72,6 +83,9 @@ public class SignInUpPage extends BasePage {
 
   @FindBy(xpath = "//*[@id='form']/div/div/div/div/a")
   public WebElement accountCreatedContinueButton;
+
+  @FindBy(xpath = "  //*[@id='form']/div/div/div[1]/div/form/p")
+  public WebElement invalidUserLoginLabel;
 
   public SignInUpPage(WebDriver driver) {
     super(driver);

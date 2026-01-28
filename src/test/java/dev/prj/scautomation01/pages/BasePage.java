@@ -1,7 +1,6 @@
 package dev.prj.scautomation01.pages;
 
 import dev.prj.scautomation01.utils.PdfReportUtil;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;

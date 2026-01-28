@@ -6,6 +6,9 @@ import org.openqa.selenium.support.FindBy;
 
 public class HomePage extends BasePage {
 
+  @FindBy(xpath = "//*[@id=\"header\"]/div/div/div/div[2]/div/ul/li[1]/a")
+  public WebElement homeButton;
+
   @FindBy(xpath = "//*[@id=\"header\"]/div/div/div/div[2]/div/ul/li[4]/a")
   public WebElement singInUpButton;
 
@@ -14,6 +17,9 @@ public class HomePage extends BasePage {
 
   @FindBy(xpath = "//*[@id='header']/div/div/div/div[2]/div/ul/li[10]/a")
   public WebElement loggedAsUserAnchor;
+
+  @FindBy(xpath = "//*[@id='header']/div/div/div/div[2]/div/ul/li[4]/a")
+  public WebElement logoutButton;
 
   @FindBy(xpath = "//*[@id='header']/div/div/div/div[2]/div/ul/li[5]/a")
   public WebElement deleteAccountButton;
