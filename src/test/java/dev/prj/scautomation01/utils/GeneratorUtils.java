@@ -131,7 +131,7 @@ public class GeneratorUtils implements UserGeneratorConstants {
     }
 
     public enum GenderType {
-      MALE(By.xpath("//*[@id=\"form\"]/div/div/div/div/form/div[1]/div[1]/label")),
+      MALE(By.xpath("//*[@id='form']/div/div/div/div/form/div[1]/div[1]/label")),
       FEMALE(By.xpath("//*[@id='form']/div/div/div/div/form/div[1]/div[2]/label"));
 
       final By genderPath;
